@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import logoImg from '../assets/images/logo.svg'; 
@@ -10,8 +10,30 @@ import { database } from '../services/firebase';
 
 import '../style/rooms.scss'; 
 
+type FirebaseQuestion = Record<string, {
+    author:{
+        name:string; 
+        avatar:string; 
+    }
+    content: string; 
+    isAnswered: boolean; 
+    isHighlighted: boolean; 
+}>
+
 type RoomsParams = {
     id:string; 
+}
+
+type Question = {
+    id: string; 
+    author:{
+        name:string; 
+        avatar:string; 
+    }
+    content: string; 
+    isAnswered: boolean; 
+    isHighlighted: boolean; 
+
 }
 
 
@@ -19,8 +41,34 @@ export function Room(){
     const {user} = useAuth(); 
     const params = useParams<RoomsParams>(); 
     const roomId = params.id;  
+ 
+    const [questions, setQuestion] = useState<Question[]>([]); 
+    const [title, setTitle] = useState(''); 
 
     const[newQuestion, setNewQuestion] = useState('')
+
+    useEffect(()=> {
+        const roomRef = database.ref(`rooms/${roomId}`); 
+        roomRef.on('value', room => {
+            const databaseRoom= room.val(); 
+            const firebaseQuestion:FirebaseQuestion =databaseRoom.questions ?? {}; 
+
+            const parsedQuestions = Object.entries(firebaseQuestion).map(([key,value])=> {
+                return {
+                    id: key,
+                    content: value.content, 
+                    author: value.author, 
+                    isHighlighted: value.isHighlighted, 
+                    isAnswered: value.isAnswered
+                }
+            })
+            setTitle(databaseRoom.title); 
+            setQuestion(parsedQuestions); 
+        })
+    },[roomId])
+
+    
+
 
     async function handleSendQuestion(event: FormEvent) {
 
@@ -61,8 +109,8 @@ export function Room(){
 
             <main>
                 <div className ='room-title'>
-                    <h1>Sala React</h1>
-                    <span>4 Perguntas</span>
+                    <h1>Sala {title}</h1>
+                    {questions.length > 0 && <span>{questions.length} pergunta(s)</span>}
                 </div>
 
                 <form onClick = {handleSendQuestion}>
@@ -75,8 +123,9 @@ export function Room(){
                  
                 <div className ='form-footer'>
                     {user ? (
-                        <div className ='form-footer'>
-
+                        <div className ='user-info'>
+                           <img src={user.avatar} alt='' />
+                           <span>{user.name}</span>
                         </div>
                     ):( 
                      <div>
@@ -86,6 +135,8 @@ export function Room(){
                      <Button type ="submit" disabled ={!user}>Enviar pergunta</Button>
                 </div>
                 </form>
+
+                {JSON.stringify(questions)}
             </main>
             
         </div>
