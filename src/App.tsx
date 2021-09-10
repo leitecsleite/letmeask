@@ -7,6 +7,7 @@ import { Route, BrowserRouter, Switch}  from 'react-router-dom';
 
 import { AuthContextProvider}  from './contexts/AuthContext'
 import { Room } from './pages/Rooms';
+import { AdminRoom } from './pages/AdminRoom';
 
 function App() {
  
@@ -17,7 +18,8 @@ function App() {
         <Switch>
           <Route path="/"  exact component={Home} />
           <Route path='/room/new' exact component={NewRoom}/>
-          <Route path ='/rooms/:id' component={Room}></Route>
+          <Route path ='/rooms/:id' component={Room} />
+          <Route path ='/admin/rooms/:id' component={AdminRoom}/>
         </Switch>
       </AuthContextProvider>
      </BrowserRouter> 
