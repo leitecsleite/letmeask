@@ -55,6 +55,11 @@
         >img {
             align-self: center;
         }
+
+        .user-avatar{
+            border-radius: 50%;
+            margin-top: 12px;
+        }
         
         h2{
             font-size:24px; 
@@ -142,3 +147,14 @@
 
    
 }
+
+@media only screen and (max-device-width: 860px) {
+    #page-auth{
+        flex-direction: column;
+        
+        main{
+             padding: 120px 80px; 
+         } 
+
+        }
+    }
