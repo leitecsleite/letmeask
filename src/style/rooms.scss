@@ -67,6 +67,7 @@
                 justify-content: space-between;
                 align-items: center;
                 margin-top: 16px;
+                
 
 
                
@@ -93,6 +94,7 @@
                     color: #737380;
                     font-weight: 500;
 
+
                     button{
                         background: transparent;
                         border: 0;
@@ -111,3 +113,31 @@
         }
     }
 }
+
+@media only screen and (max-device-width: 830px) {
+    .page-room main {
+        margin: 0 16px;
+    }
+}
+
+@media only screen and (max-device-width: 496px) {
+    .page-room header .content {
+        flex-direction: column;
+
+        .room-code{
+            margin-top: 20px;
+        }
+    }
+}
+
+@media only screen and (max-device-width: 573px){
+   .page-room main .room-title{
+     flex-direction: column;
+   }
+  }
+
+@media only screen and (max-device-width: 571px){
+   .page-room main .room-title h1 {
+       font-size: 1.5rem;
+   }
+ }

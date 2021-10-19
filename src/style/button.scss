@@ -1,5 +1,5 @@
 .button{
-    height: 50px; 
+    height: 3rem; 
     border-radius: 8px; 
     font-weight:500;
     background: #835afd; 
@@ -32,5 +32,11 @@
     &:disabled{
         opacity: 0.6;
         cursor: not-allowed; 
+    }
+}
+
+@media only screen and ( max-device-width: 360px) {
+    .button{
+     //   height: 25px;
     }
 }

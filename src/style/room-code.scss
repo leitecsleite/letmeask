@@ -15,6 +15,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 100%;
     }
 
     span{
@@ -25,5 +26,11 @@
         width: 230px;
         font-size: 14px;
         font-weight: 500;
+    }
+}
+
+@media only screen and (max-device-width: 735px){
+    .page-room header .content > div {
+        flex-direction: column;
     }
 }
